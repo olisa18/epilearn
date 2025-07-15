@@ -1,11 +1,11 @@
-import 'package:epilearn/core/features/episodes/data/episode_service.dart';
+import 'package:epilearn/core/features/episodes/data/episode_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'episode_state.dart';
 
 class EpisodeNotifier extends StateNotifier<EpisodeState> {
-  final EpisodeService episodeService;
+  final EpisodeRepository repository;
 
-  EpisodeNotifier(this.episodeService) : super(EpisodeState.initial());
+  EpisodeNotifier(this.repository) : super(EpisodeState.initial());
 
   Future<void> fetchEpisodes() async {
     if (state.isLoading || !state.hasNextPage) return;
@@ -13,8 +13,7 @@ class EpisodeNotifier extends StateNotifier<EpisodeState> {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final newEpisodes =
-          await episodeService.fetchEpisodes(page: state.currentPage);
+      final newEpisodes = await repository.getEpisodes(state.currentPage);
       final hasNext = newEpisodes.length == 20;
 
       state = state.copyWith(
