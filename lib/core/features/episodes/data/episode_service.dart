@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:epilearn/core/features/episodes/domain/episode_model.dart';
+import 'package:epilearn/features/episodes/domain/episode_model.dart';
 
 class EpisodeService {
   final Dio dio;
