@@ -27,3 +27,9 @@ class EpisodeNotifier extends StateNotifier<EpisodeState> {
     }
   }
 }
+
+final episodeNotifierProvider =
+    StateNotifierProvider<EpisodeNotifier, EpisodeState>((ref) {
+  final repo = ref.watch(episodeRepositoryProvider);
+  return EpisodeNotifier(repo);
+});
