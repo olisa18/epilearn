@@ -1,6 +1,7 @@
 import 'package:epilearn/features/episodes/domain/episode_model.dart';
 import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
 import 'package:epilearn/features/saved_episodes/presentation/saved_episodes_screen.dart';
+import 'package:epilearn/shared/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -72,19 +73,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state, navigationShell) => getPage(
           child: Scaffold(
             body: navigationShell,
-            bottomNavigationBar: BottomNavigationBar(
+            bottomNavigationBar: BottomNavBar(
               currentIndex: navigationShell.currentIndex,
               onTap: navigationShell.goBranch,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.list),
-                  label: 'Episodes',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark),
-                  label: 'Saved',
-                ),
-              ],
             ),
           ),
           state: state,
