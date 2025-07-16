@@ -1,5 +1,4 @@
 import 'package:epilearn/core/features/characters/domain/character_model.dart';
-import 'package:epilearn/features/episodes/application/episode_detail_notifier.dart';
 import 'package:epilearn/features/episodes/domain/episode_model.dart';
 
 class EpisodeDetailsState {

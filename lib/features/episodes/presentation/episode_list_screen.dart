@@ -1,3 +1,4 @@
+import 'package:epilearn/features/saved_episodes/application/saved_episode_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:epilearn/features/episodes/application/episode_notifier.dart';
@@ -49,7 +50,16 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
                 itemBuilder: (context, index) {
                   if (index < state.episodes.length) {
                     final episode = state.episodes[index];
-                    return GestureDetector(
+                    final savedEpisodes =
+                        ref.watch(savedEpisodeNotifierProvider);
+                    final notifier =
+                        ref.read(savedEpisodeNotifierProvider.notifier);
+                    final isSaved =
+                        savedEpisodes.any((e) => e.id == episode.id);
+
+                    return EpisodeCard(
+                      episode: episode,
+                      isSaved: isSaved,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -59,7 +69,13 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
                           ),
                         );
                       },
-                      child: EpisodeCard(episode: episode),
+                      onSave: () {
+                        if (isSaved) {
+                          notifier.unsave(episode.id);
+                        } else {
+                          notifier.save(episode);
+                        }
+                      },
                     );
                   } else {
                     return const Padding(
@@ -67,8 +83,7 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
                       child: Center(child: CircularProgressIndicator()),
                     );
                   }
-                },
-              ),
+                }),
       ),
     );
   }
