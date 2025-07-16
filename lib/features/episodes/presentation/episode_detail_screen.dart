@@ -1,4 +1,5 @@
 import 'package:epilearn/features/episodes/application/episode_detail_notifier.dart';
+import 'package:epilearn/shared/widgets/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,7 +36,12 @@ class EpisodeDetailScreen extends ConsumerWidget {
               child: Builder(
                 builder: (_) {
                   if (state.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularLoader(
+                        size: 60,
+                        color: Colors.grey,
+                      ),
+                    );
                   } else if (state.errorMessage != null) {
                     return Center(child: Text('Error: ${state.errorMessage}'));
                   } else if (state.characters.isEmpty) {
