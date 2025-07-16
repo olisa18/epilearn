@@ -22,4 +22,14 @@ class EpisodeModel {
       characterUrls: List<String>.from(json['characters']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'air_date': airDate,
+      'episode': episode,
+      'characters': characterUrls,
+    };
+  }
 }

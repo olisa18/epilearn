@@ -1,5 +1,6 @@
 import 'package:epilearn/features/episodes/domain/episode_model.dart';
 import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
+import 'package:epilearn/features/saved_episodes/presentation/saved_episodes_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:epilearn/features/episodes/presentation/episode_list_screen.dart
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final _episodesTabNavigatorKey = GlobalKey<NavigatorState>();
+final _savedTabNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract class AppRoutes {
   static const String episodes = '/episodes';
@@ -54,18 +56,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          // StatefulShellBranch(
-          //   navigatorKey: _savedTabNavigatorKey,
-          //   routes: [
-          //     GoRoute(
-          //       path: AppRoutes.saved,
-          //       pageBuilder: (context, state) => getPage(
-          //         child: const SavedEpisodesScreen(),
-          //         state: state,
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          StatefulShellBranch(
+            navigatorKey: _savedTabNavigatorKey,
+            routes: [
+              GoRoute(
+                path: AppRoutes.saved,
+                pageBuilder: (context, state) => getPage(
+                  child: const SavedEpisodesScreen(),
+                  state: state,
+                ),
+              ),
+            ],
+          ),
         ],
         pageBuilder: (context, state, navigationShell) => getPage(
           child: Scaffold(
