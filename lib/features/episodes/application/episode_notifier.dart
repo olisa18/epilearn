@@ -26,6 +26,11 @@ class EpisodeNotifier extends StateNotifier<EpisodeState> {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
+
+  Future<void> reset() async {
+    state = EpisodeState.initial();
+    await fetchEpisodes();
+  }
 }
 
 final episodeNotifierProvider =
