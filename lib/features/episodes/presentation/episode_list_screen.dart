@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:epilearn/features/episodes/application/episode_notifier.dart';
 import 'package:epilearn/features/episodes/presentation/widgets/episode_card.dart';
+import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart'; // import detail screen
 
 class EpisodeListScreen extends ConsumerStatefulWidget {
   const EpisodeListScreen({super.key});
@@ -48,7 +49,18 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
                 itemBuilder: (context, index) {
                   if (index < state.episodes.length) {
                     final episode = state.episodes[index];
-                    return EpisodeCard(episode: episode);
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EpisodeDetailScreen(episode: episode),
+                          ),
+                        );
+                      },
+                      child: EpisodeCard(episode: episode),
+                    );
                   } else {
                     return const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
