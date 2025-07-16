@@ -1,3 +1,5 @@
+import 'package:epilearn/features/episodes/domain/episode_model.dart';
+import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,16 +20,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: true,
     navigatorKey: rootNavigatorKey,
     routes: [
-      // GoRoute(
-      //   path: '${AppRoutes.episodeDetail}/:id',
-      //   pageBuilder: (context, state) {
-      //     final episode = state.extra;
-      //     return getPage(
-      //       child: EpisodeDetailScreen(episode: episode),
-      //       state: state,
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        path: '${AppRoutes.episodeDetail}/:id',
+        pageBuilder: (context, state) {
+          final episode = state.extra;
+          if (episode == null || episode is! EpisodeModel) {
+            return getPage(
+              child: Scaffold(
+                body: Center(child: Text('Episode data not found')),
+              ),
+              state: state,
+            );
+          }
+
+          return getPage(
+            child: EpisodeDetailScreen(episode: episode),
+            state: state,
+          );
+        },
+      ),
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: rootNavigatorKey,
         branches: [
