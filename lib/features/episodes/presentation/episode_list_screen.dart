@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:epilearn/features/episodes/application/episode_notifier.dart';
 import 'package:epilearn/features/episodes/presentation/widgets/episode_card.dart';
-import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart'; // import detail screen
+import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
 
 class EpisodeListScreen extends ConsumerStatefulWidget {
   const EpisodeListScreen({super.key});
@@ -35,17 +35,46 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
     final state = ref.watch(episodeNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Episodes')),
+      backgroundColor: const Color(0xFF121212),
+      appBar: AppBar(
+        title: const Text(
+          'Episodes',
+          style: TextStyle(
+            fontFamily: 'ComicSans',
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.orangeAccent,
+            shadows: [
+              Shadow(
+                color: Colors.orange,
+                blurRadius: 8,
+                offset: Offset(0, 0),
+              )
+            ],
+          ),
+        ),
+        backgroundColor: Colors.black87,
+        centerTitle: true,
+        elevation: 6,
+      ),
       body: RefreshIndicator(
+        color: Colors.orangeAccent,
+        backgroundColor: Colors.black,
         onRefresh: () async {
           ref.read(episodeNotifierProvider.notifier).reset();
           await ref.read(episodeNotifierProvider.notifier).fetchEpisodes();
         },
         child: state.isLoading && state.episodes.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.orangeAccent,
+                  strokeWidth: 4,
+                ),
+              )
             : ListView.builder(
                 controller: _scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                 itemCount: state.episodes.length + (state.hasNextPage ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index < state.episodes.length) {
@@ -79,8 +108,13 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
                     );
                   } else {
                     return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: Center(child: CircularProgressIndicator()),
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.orangeAccent,
+                          strokeWidth: 4,
+                        ),
+                      ),
                     );
                   }
                 }),

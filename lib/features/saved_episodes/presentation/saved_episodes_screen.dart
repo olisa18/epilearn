@@ -12,13 +12,44 @@ class SavedEpisodesScreen extends ConsumerWidget {
     final savedEpisodes = ref.watch(savedEpisodeNotifierProvider);
 
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: const Text('Saved'),
+        title: const Text(
+          'Saved Episodes',
+          style: TextStyle(
+            fontFamily: 'ComicSans',
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.orangeAccent,
+            shadows: [
+              Shadow(
+                color: Colors.orange,
+                blurRadius: 8,
+                offset: Offset(0, 0),
+              ),
+            ],
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black87,
+        elevation: 6,
       ),
       body: savedEpisodes.isEmpty
-          ? const Center(child: Text('No saved episodes yet.'))
-          : ListView.builder(
+          ? Center(
+              child: Text(
+                'No saved episodes yet.',
+                style: TextStyle(
+                  color: Colors.orangeAccent.withOpacity(0.7),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'ComicSans',
+                ),
+              ),
+            )
+          : ListView.separated(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
               itemCount: savedEpisodes.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final episode = savedEpisodes[index];
                 return EpisodeCard(
