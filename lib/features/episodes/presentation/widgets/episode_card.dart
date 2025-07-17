@@ -27,7 +27,7 @@ class EpisodeCard extends StatelessWidget {
             width: 3,
           )),
       elevation: 6,
-      shadowColor: Colors.orangeAccent.withOpacity(0.6),
+      shadowColor: Colors.orangeAccent.withValues(alpha: 0.6),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20),

@@ -12,7 +12,6 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Gradient shader for selected icon and label
     final Shader linearGradient = const LinearGradient(
       colors: <Color>[Color(0xFFFFA726), Color(0xFFFFD54F)],
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
@@ -26,7 +25,7 @@ class BottomNavBar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.orangeAccent.withOpacity(0.5),
+            color: Colors.orangeAccent.withValues(alpha: 0.5),
             blurRadius: 10,
             spreadRadius: 2,
             offset: const Offset(0, -2),
@@ -34,7 +33,7 @@ class BottomNavBar extends StatelessWidget {
         ],
       ),
       child: BottomNavigationBar(
-        backgroundColor: Colors.transparent, // use container gradient
+        backgroundColor: Colors.transparent,
         selectedItemColor: Colors.orangeAccent,
         unselectedItemColor: Colors.grey[600],
         selectedLabelStyle: const TextStyle(
@@ -55,7 +54,7 @@ class BottomNavBar extends StatelessWidget {
           color: Colors.grey,
         ),
         showUnselectedLabels: true,
-        elevation: 0, // remove default shadow; we add our own above
+        elevation: 0,
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         onTap: onTap,

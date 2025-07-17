@@ -10,11 +10,6 @@ class ApiInterceptors extends Interceptor {
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    super.onResponse(response, handler);
-  }
-
-  @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final isConnectionError = err.type == DioExceptionType.connectionError ||
         err.type == DioExceptionType.connectionTimeout ||

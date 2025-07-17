@@ -1,6 +1,7 @@
 import 'package:epilearn/features/episodes/domain/episode_model.dart';
 import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
 import 'package:epilearn/features/saved_episodes/presentation/saved_episodes_screen.dart';
+import 'package:epilearn/home_screen.dart';
 import 'package:epilearn/shared/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ final _episodesTabNavigatorKey = GlobalKey<NavigatorState>();
 final _savedTabNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract class AppRoutes {
+  static const String home = '/';
   static const String episodes = '/episodes';
   static const String saved = '/saved';
   static const String episodeDetail = '/episodeDetail';
@@ -19,17 +21,24 @@ abstract class AppRoutes {
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoutes.episodes,
+    initialLocation: AppRoutes.home,
     debugLogDiagnostics: true,
     navigatorKey: rootNavigatorKey,
     routes: [
+      GoRoute(
+        path: AppRoutes.home,
+        pageBuilder: (context, state) => getPage(
+          child: const HomeScreen(),
+          state: state,
+        ),
+      ),
       GoRoute(
         path: '${AppRoutes.episodeDetail}/:id',
         pageBuilder: (context, state) {
           final episode = state.extra;
           if (episode == null || episode is! EpisodeModel) {
             return getPage(
-              child: Scaffold(
+              child: const Scaffold(
                 body: Center(child: Text('Episode data not found')),
               ),
               state: state,
