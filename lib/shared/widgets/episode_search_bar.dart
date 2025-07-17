@@ -11,29 +11,38 @@ class EpisodeSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: TextField(
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(
+          color: Color(0xFF00FFF7),
+          fontFamily: 'ComicSans',
+          fontSize: 16,
+        ),
+        cursorColor: const Color(0xFF00FFF7),
         decoration: InputDecoration(
           hintText: 'Search Episodes...',
-          hintStyle: TextStyle(color: Colors.orangeAccent.withAlpha(180)),
+          hintStyle: TextStyle(
+            color: const Color(0xFF00FFF7).withValues(alpha: 0.5),
+            fontFamily: 'ComicSans',
+          ),
           filled: true,
-          fillColor: Colors.black54,
-          prefixIcon: const Icon(Icons.search, color: Colors.orangeAccent),
+          fillColor: const Color(0xFF12182C),
+          prefixIcon: const Icon(Icons.search, color: Color(0xFF00FFF7)),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.orangeAccent, width: 1),
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: const Color(0xFF00FFF7).withValues(alpha: 0.6),
+              width: 1.5,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Colors.orange, width: 2),
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              color: Color(0xFF00FFF7),
+              width: 2,
+            ),
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14),
         ),
         onChanged: onChanged,
       ),

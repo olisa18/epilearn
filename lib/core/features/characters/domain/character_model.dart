@@ -1,9 +1,9 @@
 class CharacterModel {
   final int id;
   final String name;
-  final String status; // "Alive", "Dead", or "unknown"
+  final String status;
   final String species;
-  final String type; // sometimes empty string
+  final String type;
   final String gender;
   final String image;
   final String url;
