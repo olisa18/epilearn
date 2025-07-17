@@ -58,15 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Positioned.fill(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-                    child:
-                        Container(color: Colors.black.withValues(alpha: 0.6)),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.1),
                   ),
                 ),
-                Center(
+                Align(
+                  alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding:
+                        const EdgeInsets.only(bottom: 60, left: 24, right: 24),
                     child: Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
