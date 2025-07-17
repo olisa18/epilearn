@@ -12,62 +12,66 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Shader linearGradient = const LinearGradient(
-      colors: <Color>[Color(0xFFFFA726), Color(0xFFFFD54F)],
-    ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+    final Shader neonGradient = const LinearGradient(
+      colors: [
+        Color(0xFF00FFAA),
+        Color(0xFF00FFF7),
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ).createShader(const Rect.fromLTWH(0, 0, 200, 70));
 
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF1A1A1A), Color(0xFF2C2C2C)],
+          colors: [Color(0xFF12182C), Color(0xFF0D1121)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.orangeAccent.withValues(alpha: 0.5),
-            blurRadius: 10,
-            spreadRadius: 2,
-            offset: const Offset(0, -2),
+            color:
+                const Color.fromARGB(166, 0, 255, 247).withValues(alpha: 0.2),
+            blurRadius: 16,
+            spreadRadius: 4,
+            offset: const Offset(0, -1),
           ),
         ],
       ),
       child: BottomNavigationBar(
         backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.orangeAccent,
+        currentIndex: currentIndex,
+        onTap: onTap,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
+        selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[600],
         selectedLabelStyle: const TextStyle(
           fontFamily: 'ComicSans',
           fontWeight: FontWeight.bold,
-          fontSize: 14,
+          fontSize: 16,
           shadows: [
             Shadow(
-              color: Colors.deepOrange,
-              blurRadius: 6,
-              offset: Offset(1, 1),
+              color: Color(0xFF00FFF7),
+              blurRadius: 8,
+              offset: Offset(0, 0),
             ),
           ],
         ),
         unselectedLabelStyle: const TextStyle(
           fontFamily: 'ComicSans',
-          fontSize: 12,
+          fontSize: 14,
           color: Colors.grey,
         ),
-        showUnselectedLabels: true,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
-        onTap: onTap,
         items: [
           BottomNavigationBarItem(
             icon: ShaderMask(
               shaderCallback: (bounds) {
-                if (currentIndex == 0) {
-                  return linearGradient;
-                }
-                return const LinearGradient(
-                  colors: [Colors.grey, Colors.grey],
-                ).createShader(bounds);
+                return currentIndex == 0
+                    ? neonGradient
+                    : const LinearGradient(
+                        colors: [Colors.grey, Colors.grey],
+                      ).createShader(bounds);
               },
               child: Icon(
                 Icons.list,
@@ -79,12 +83,11 @@ class BottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: ShaderMask(
               shaderCallback: (bounds) {
-                if (currentIndex == 1) {
-                  return linearGradient;
-                }
-                return const LinearGradient(
-                  colors: [Colors.grey, Colors.grey],
-                ).createShader(bounds);
+                return currentIndex == 1
+                    ? neonGradient
+                    : const LinearGradient(
+                        colors: [Colors.grey, Colors.grey],
+                      ).createShader(bounds);
               },
               child: Icon(
                 Icons.bookmark,

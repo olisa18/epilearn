@@ -17,64 +17,82 @@ class EpisodeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color accentColor = Color(0xFF00FF9F);
+
+    const Gradient titleGradient = LinearGradient(
+      colors: [
+        Color(0xFF2AF598),
+        Color(0xFF009EFD),
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
+
     return Card(
-      color: const Color(0xFF1E1E1E),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: Colors.black.withAlpha(150),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(
-            color: isSaved ? Colors.orangeAccent : Colors.transparent,
-            width: 3,
-          )),
-      elevation: 6,
-      shadowColor: Colors.orangeAccent.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(
+          color: isSaved ? accentColor : Colors.transparent,
+          width: 2.5,
+        ),
+      ),
+      elevation: 12,
+      shadowColor: accentColor.withAlpha(100),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20),
-        splashColor: Colors.orange.withValues(alpha: 0.3),
-        highlightColor: Colors.orange.withValues(alpha: 0.1),
+        splashColor: accentColor.withAlpha(64),
+        highlightColor: accentColor.withAlpha(32),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
           child: Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      episode.name,
-                      style: const TextStyle(
-                        fontFamily: 'ComicSans',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.orangeAccent,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 4,
-                            color: Colors.deepOrange,
-                            offset: Offset(1, 1),
-                          )
-                        ],
+                    ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (bounds) => titleGradient.createShader(
+                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      child: Text(
+                        episode.name,
+                        style: const TextStyle(
+                          fontFamily: 'ComicSans',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 10,
+                              color: accentColor,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 10),
                     Text(
                       episode.episode,
                       style: TextStyle(
                         fontFamily: 'ComicSans',
-                        fontSize: 16,
-                        color: Colors.grey[400],
+                        fontSize: 17,
+                        color: Colors.cyan[200]?.withAlpha(217),
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 6),
                     Text(
                       episode.airDate,
                       style: TextStyle(
                         fontFamily: 'ComicSans',
                         fontSize: 14,
-                        color: Colors.grey[600],
+                        color: Colors.cyan[100]?.withAlpha(153),
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
                   ],
@@ -84,21 +102,36 @@ class EpisodeCard extends StatelessWidget {
                 duration: const Duration(milliseconds: 400),
                 transitionBuilder: (child, anim) =>
                     ScaleTransition(scale: anim, child: child),
-                child: IconButton(
+                child: Container(
                   key: ValueKey<bool>(isSaved),
-                  icon: Icon(
-                    isSaved ? Icons.bookmark : Icons.bookmark_border,
-                    color: isSaved ? Colors.yellowAccent : Colors.grey[400],
-                    size: 30,
-                    shadows: const [
-                      Shadow(
-                        blurRadius: 6,
-                        color: Colors.yellow,
-                        offset: Offset(0, 0),
-                      )
-                    ],
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: isSaved
+                        ? RadialGradient(
+                            colors: [
+                              accentColor.withAlpha(77),
+                              Colors.transparent,
+                            ],
+                            radius: 0.8,
+                          )
+                        : null,
                   ),
-                  onPressed: onSave,
+                  child: IconButton(
+                    icon: Icon(
+                      isSaved ? Icons.bookmark : Icons.bookmark_border,
+                      color: isSaved ? accentColor : Colors.cyan[100],
+                      size: 30,
+                      shadows: const [
+                        Shadow(
+                          blurRadius: 14,
+                          color: accentColor,
+                          offset: Offset(0, 0),
+                        )
+                      ],
+                    ),
+                    onPressed: onSave,
+                    splashRadius: 24,
+                  ),
                 ),
               ),
             ],

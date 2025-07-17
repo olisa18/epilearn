@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:epilearn/features/saved_episodes/application/saved_episode_notifier.dart';
 import 'package:epilearn/features/episodes/presentation/widgets/episode_card.dart';
 import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
+import 'package:epilearn/shared/widgets/episode_search_bar.dart';
 
 class SavedEpisodesScreen extends ConsumerStatefulWidget {
   const SavedEpisodesScreen({super.key});
@@ -27,111 +29,76 @@ class _SavedEpisodesScreenState extends ConsumerState<SavedEpisodesScreen> {
             .toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF12182C),
       appBar: AppBar(
         title: const Text(
           'Saved Episodes',
           style: TextStyle(
             fontFamily: 'ComicSans',
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.orangeAccent,
-            shadows: [
-              Shadow(
-                color: Colors.orange,
-                blurRadius: 8,
-                offset: Offset(0, 0),
-              ),
-            ],
+            fontSize: 30,
+            fontWeight: FontWeight.w900,
+            color: Color(0xFF00FFF7),
+            letterSpacing: 1.2,
+            height: 1.2,
           ),
         ),
-        centerTitle: true,
         backgroundColor: Colors.black87,
-        elevation: 6,
+        centerTitle: true,
+        elevation: 8,
       ),
-      body: savedEpisodes.isEmpty
-          ? Center(
-              child: Text(
-                'No saved episodes yet.',
-                style: TextStyle(
-                  color: Colors.orangeAccent.withValues(alpha: 0.7),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'ComicSans',
-                ),
-              ),
-            )
-          : Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: TextField(
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Search saved episodes...',
-                      hintStyle: TextStyle(
-                          color: Colors.orangeAccent.withValues(alpha: 0.7)),
-                      prefixIcon:
-                          const Icon(Icons.search, color: Colors.orangeAccent),
-                      filled: true,
-                      fillColor: Colors.black54,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+      body: Column(
+        children: [
+          EpisodeSearchBar(
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+          ),
+          Expanded(
+            child: filteredEpisodes.isEmpty
+                ? Center(
+                    child: Text(
+                      _searchQuery.isEmpty
+                          ? 'No saved episodes yet.'
+                          : 'No saved episodes found.',
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16,
+                        fontFamily: 'ComicSans',
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 16),
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 12),
+                    itemCount: filteredEpisodes.length,
+                    itemBuilder: (context, index) {
+                      final episode = filteredEpisodes[index];
+                      final notifier =
+                          ref.read(savedEpisodeNotifierProvider.notifier);
+
+                      return EpisodeCard(
+                        episode: episode,
+                        isSaved: true,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  EpisodeDetailScreen(episode: episode),
+                            ),
+                          );
+                        },
+                        onSave: () {
+                          notifier.unsave(episode.id);
+                        },
+                      );
                     },
                   ),
-                ),
-                Expanded(
-                  child: filteredEpisodes.isEmpty
-                      ? Center(
-                          child: Text(
-                            'No saved episodes match your search.',
-                            style: TextStyle(
-                              color: Colors.orangeAccent.withValues(alpha: 0.7),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'ComicSans',
-                            ),
-                          ),
-                        )
-                      : ListView.separated(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 16),
-                          itemCount: filteredEpisodes.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(height: 12),
-                          itemBuilder: (context, index) {
-                            final episode = filteredEpisodes[index];
-                            return EpisodeCard(
-                              episode: episode,
-                              isSaved: true,
-                              onSave: () => ref
-                                  .read(savedEpisodeNotifierProvider.notifier)
-                                  .unsave(episode.id),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) =>
-                                        EpisodeDetailScreen(episode: episode),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                ),
-              ],
-            ),
+          ),
+        ],
+      ),
     );
   }
 }

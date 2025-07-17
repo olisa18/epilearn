@@ -1,10 +1,11 @@
-import 'package:epilearn/features/saved_episodes/application/saved_episode_notifier.dart';
-import 'package:epilearn/shared/widgets/episode_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:epilearn/features/episodes/application/episode_notifier.dart';
 import 'package:epilearn/features/episodes/presentation/widgets/episode_card.dart';
 import 'package:epilearn/features/episodes/presentation/episode_detail_screen.dart';
+import 'package:epilearn/features/saved_episodes/application/saved_episode_notifier.dart';
+import 'package:epilearn/shared/widgets/episode_search_bar.dart';
 
 class EpisodeListScreen extends ConsumerStatefulWidget {
   const EpisodeListScreen({super.key});
@@ -22,7 +23,8 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
     super.initState();
 
     Future.microtask(
-        () => ref.read(episodeNotifierProvider.notifier).fetchEpisodes());
+      () => ref.read(episodeNotifierProvider.notifier).fetchEpisodes(),
+    );
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
@@ -36,7 +38,6 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(episodeNotifierProvider);
 
-    // Filter episodes by search query
     final filteredEpisodes = _searchQuery.isEmpty
         ? state.episodes
         : state.episodes
@@ -45,30 +46,25 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
             .toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFF12182C),
       appBar: AppBar(
         title: const Text(
           'Episodes',
           style: TextStyle(
             fontFamily: 'ComicSans',
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.orangeAccent,
-            shadows: [
-              Shadow(
-                color: Colors.orange,
-                blurRadius: 8,
-                offset: Offset(0, 0),
-              )
-            ],
+            fontSize: 30,
+            fontWeight: FontWeight.w900,
+            color: Color(0xFF00FFF7),
+            letterSpacing: 1.2,
+            height: 1.2,
           ),
         ),
         backgroundColor: Colors.black87,
         centerTitle: true,
-        elevation: 6,
+        elevation: 8,
       ),
       body: RefreshIndicator(
-        color: Colors.orangeAccent,
+        color: Colors.greenAccent,
         backgroundColor: Colors.black,
         onRefresh: () async {
           ref.read(episodeNotifierProvider.notifier).reset();
@@ -87,7 +83,7 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
               child: state.isLoading && filteredEpisodes.isEmpty
                   ? const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.orangeAccent,
+                        color: Colors.greenAccent,
                         strokeWidth: 4,
                       ),
                     )
@@ -132,7 +128,7 @@ class _EpisodeListScreenState extends ConsumerState<EpisodeListScreen> {
                             padding: EdgeInsets.symmetric(vertical: 24),
                             child: Center(
                               child: CircularProgressIndicator(
-                                color: Colors.orangeAccent,
+                                color: Colors.greenAccent,
                                 strokeWidth: 4,
                               ),
                             ),
