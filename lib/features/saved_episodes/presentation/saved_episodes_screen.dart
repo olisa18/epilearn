@@ -54,7 +54,7 @@ class _SavedEpisodesScreenState extends ConsumerState<SavedEpisodesScreen> {
               child: Text(
                 'No saved episodes yet.',
                 style: TextStyle(
-                  color: Colors.orangeAccent.withOpacity(0.7),
+                  color: Colors.orangeAccent.withValues(alpha: 0.7),
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'ComicSans',
@@ -71,7 +71,7 @@ class _SavedEpisodesScreenState extends ConsumerState<SavedEpisodesScreen> {
                     decoration: InputDecoration(
                       hintText: 'Search saved episodes...',
                       hintStyle: TextStyle(
-                          color: Colors.orangeAccent.withOpacity(0.7)),
+                          color: Colors.orangeAccent.withValues(alpha: 0.7)),
                       prefixIcon:
                           const Icon(Icons.search, color: Colors.orangeAccent),
                       filled: true,
@@ -90,15 +90,13 @@ class _SavedEpisodesScreenState extends ConsumerState<SavedEpisodesScreen> {
                     },
                   ),
                 ),
-
-                // Episode list or "no matches" message
                 Expanded(
                   child: filteredEpisodes.isEmpty
                       ? Center(
                           child: Text(
                             'No saved episodes match your search.',
                             style: TextStyle(
-                              color: Colors.orangeAccent.withOpacity(0.7),
+                              color: Colors.orangeAccent.withValues(alpha: 0.7),
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
                               fontFamily: 'ComicSans',

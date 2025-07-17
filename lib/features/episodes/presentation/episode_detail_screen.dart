@@ -106,7 +106,7 @@ class EpisodeDetailScreen extends ConsumerWidget {
                             backgroundImage: NetworkImage(character.image),
                             radius: 28,
                             backgroundColor:
-                                Colors.orangeAccent.withOpacity(0.3),
+                                Colors.orangeAccent.withValues(alpha: 0.3),
                           ),
                           title: Text(
                             character.name,
